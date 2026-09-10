@@ -1,17 +1,20 @@
 import { Scanner } from "./scanner"
 
-const scanner = new Scanner("123 456.789 0 42. 12.34.56");
-const tokens = scanner.scanTokens();
-
-console.log(tokens)
+console.log("Scanning...")
 
 export class Scout {
     private hadError = false;
     run(source: string): void {
-        console.log(source)
+        // create a scanner using source
+        const scanner = new Scanner(source, this.reportError);
+        const tokens = scanner.scanTokens();
+        // print the tokens
+        for (const token of tokens) {
+            console.log(token);
+        }
     }
     
-    reportError(line: number, message: string): void {
+    reportError = (line: number, message: string): void => {
         console.error(`[line ${line}] Error: ${message}`);
         this.hadError = true
     }

@@ -2,18 +2,22 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Scout = void 0;
 const scanner_1 = require("./scanner");
-const scanner = new scanner_1.Scanner("123 456.789 0 42. 12.34.56");
-const tokens = scanner.scanTokens();
-console.log(tokens);
+console.log("Scanning...");
 class Scout {
     hadError = false;
     run(source) {
-        console.log(source);
+        // create a scanner using source
+        const scanner = new scanner_1.Scanner(source, this.reportError);
+        const tokens = scanner.scanTokens();
+        // print the tokens
+        for (const token of tokens) {
+            console.log(token);
+        }
     }
-    reportError(line, message) {
+    reportError = (line, message) => {
         console.error(`[line ${line}] Error: ${message}`);
         this.hadError = true;
-    }
+    };
     get hasError() {
         return this.hadError;
     }
