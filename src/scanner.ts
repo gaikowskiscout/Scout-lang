@@ -15,11 +15,18 @@ export class Scanner {
     private scanToken(): void {
         const c = this.advance();
 
+        if (this.isDigit(c)) {
+            this.number();
+        }
+
         switch (c) {
             case " ":
             case "\r":
             case "\t":
-                break
+                break;
+            case "\n":
+                this.line++;
+                break;
 
             case '"':
                 this.string();
@@ -92,6 +99,19 @@ export class Scanner {
         this.addToken(TokenType.STRING);
     }
 
+    private number(): void {
+        while (this.isDigit(this.peek())) this.advance();
+        if (this.peek() === "." && this.isDigit(this.peekNext())) {
+            this.advance();
+            while (this.isDigit(this.peek())) this.advance();
+        }
+        this.addToken(TokenType.NUMBER);
+    }
+
+    private isDigit(c: string): boolean {
+        return c >= "0" && c <= "9";
+    }
+
     private addToken(type: TokenType): void {
         const text = this.source.substring(this.start, this.current)
         this.tokens.push(new Token(type, text, null, this.line))
@@ -117,5 +137,10 @@ export class Scanner {
     private peek(): string {
         if (this.isAtEnd()) return "\0"
         return this.source[this.current]
+    }
+
+    private peekNext(): string {
+        if (this.current + 1 >= this.source.length) return "\0"
+        return this.source[this.current + 1]
     }
 }
