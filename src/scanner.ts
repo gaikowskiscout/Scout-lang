@@ -17,15 +17,13 @@ export class Scanner {
 
         if (this.isDigit(c)) {
             this.number();
+            return;
         }
 
         switch (c) {
             case " ":
             case "\r":
             case "\t":
-                break;
-            case "\n":
-                this.line++;
                 break;
 
             case '"':

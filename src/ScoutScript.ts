@@ -1,6 +1,6 @@
 import { Scanner } from "./scanner"
 
-const scanner = new Scanner("\"hello world\"");
+const scanner = new Scanner("123 456.789 0 42. 12.34.56");
 const tokens = scanner.scanTokens();
 
 console.log(tokens)
