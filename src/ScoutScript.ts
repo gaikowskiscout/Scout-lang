@@ -1,6 +1,6 @@
 import { Scanner } from "./scanner"
 
-const scanner = new Scanner("/ // hello\n/");
+const scanner = new Scanner("\"hello world\"");
 const tokens = scanner.scanTokens();
 
 console.log(tokens)

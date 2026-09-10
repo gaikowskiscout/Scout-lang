@@ -21,6 +21,10 @@ export class Scanner {
             case "\t":
                 break
 
+            case '"':
+                this.string();
+                break;
+
             case "\n":
                 this.line++;
                 break;
@@ -76,6 +80,18 @@ export class Scanner {
                 break;
         }
     }
+
+    private string(): void {
+        while (this.peek() !== '"' && !this.isAtEnd()) {
+            if (this.peek() === "\n") this.line++;
+            this.advance();
+        }
+
+        if (this.isAtEnd()) return;
+        this.advance();
+        this.addToken(TokenType.STRING);
+    }
+
     private addToken(type: TokenType): void {
         const text = this.source.substring(this.start, this.current)
         this.tokens.push(new Token(type, text, null, this.line))
